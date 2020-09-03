@@ -4,6 +4,17 @@ const app = express();
 // Get the router files
 const apiRoutes = require("./routes/api");
 
+// Step 1 from test.js
+const Knex = require("knex");
+const knexFile = require("./knexfile");
+const knex = Knex(knexFile.development);
+
+// Step 2 from test.js
+const { Model } = require("objection");
+
+// Step 3 from test.js
+Model.knex(knex);
+
 // Include the routes to express
 app.use("/api", apiRoutes);
 

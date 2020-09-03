@@ -1,19 +1,25 @@
-// Include the knex package and config file
+// 1. Import and initialize Knex.js
 const Knex = require("knex");
 const knexFile = require("./knexfile");
-
-// Make the connection to the database
 const knex = Knex(knexFile.development);
 
-// Run queries
-knex("todos")
-  .where("user_id", 1)
-  .then((rows) => {
-    for (row of rows) {
-      console.log(row);
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-    throw err;
-  });
+// 2. Import Objection.js Model class
+const { Model } = require("objection");
+
+// 3. Bind all models to the knex instance
+Model.knex(knex);
+
+// 4. Create the User model class
+class User extends Model {
+  static get tableName() {
+    return "users";
+  }
+}
+
+// 5. Run the query in async/await
+const getUsers = async () => {
+  // return all users
+  const users = await User.query();
+  console.log(users);
+};
+getUsers();

@@ -1,25 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../../models/User.js");
 
-// Create endpoint of all users
-router.get("/", (req, res) => {
-  res.json([
-    {
-      id: 1,
-      name: "Alex",
-      age: 27,
-    },
-    {
-      id: 2,
-      name: "Frodo",
-      age: 42,
-    },
-    {
-      id: 3,
-      name: "Gandalf",
-      age: 85,
-    },
-  ]);
+router.get("/", async (req, res) => {
+  // Step 5 from test.js
+  const users = await User.query();
+  res.json(users);
 });
 
 // export to api.js

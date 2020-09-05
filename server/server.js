@@ -22,6 +22,12 @@ Model.knex(knex);
 // Include the routes to express
 app.use("/api", apiRoutes);
 
+// Include error handlers - must be the last one among middleware or routes to function properly
+const { errorHandler } = require("./helpers/error");
+app.use((err, req, res, next) => {
+  errorHandler(err, res);
+});
+
 const server = app.listen(8080, (error) => {
   if (error) {
     console.log("Error running Express");

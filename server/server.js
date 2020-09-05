@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+// Accept JSON data
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 // Get the router files
 const apiRoutes = require("./routes/api");
 

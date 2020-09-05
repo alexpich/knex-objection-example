@@ -111,6 +111,12 @@ function errorHandler(err, res) {
       type: "UnknownDatabaseError",
       data: {},
     });
+  } else if (err instanceof CustomError) {
+    res.status(err.statusCode).send({
+      message: err.message,
+      type: err.type,
+      data: err.data,
+    });
   } else {
     res.status(500).send({
       message: err.message,
@@ -120,6 +126,23 @@ function errorHandler(err, res) {
   }
 }
 
+/**
+ * Custom error handler class, throw it if you wish to present your
+ * own status code, with message, type, and additional data.
+ */
+
+class CustomError extends Error {
+  constructor(statusCode, message, type = "Error", data = {}) {
+    super();
+    this.statusCode = statusCode;
+    this.message = message;
+    this.type = type;
+    this.data = data;
+    this.name = this.constructor.name;
+  }
+}
+
 module.exports = {
   errorHandler,
+  CustomError,
 };
